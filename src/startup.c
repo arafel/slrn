@@ -1736,6 +1736,26 @@ static int nnrp_fun (int argc, SLcmd_Cmd_Table_Type *table) /*{{{*/
 }
 /*}}}*/
 
+static int slrn_get_auth_from_env(Server_List_Type *s) /*{{{*/
+{
+   extern char **environ;
+   size_t i;
+
+   for (i = 0; environ[i] != NULL; i++)
+   {
+     if (strncmp(environ[i], "NNTPUSER=", 9) == 0) {
+	char *user_start = &environ[i][9];
+	s->username = slrn_safe_strmalloc (user_start);
+     }
+     if (strncmp(environ[i], "NNTPPASS=", 9) == 0) {
+	char *pass_start = &environ[i][9];
+	s->password = slrn_safe_strmalloc (pass_start);
+     }
+   }
+   return 0;
+}
+/*}}}*/
+
 int slrn_get_authorization (char *host, int reqd, char **name, char **pass) /*{{{*/
 {
    Server_List_Type *s;
@@ -1752,6 +1772,8 @@ int slrn_get_authorization (char *host, int reqd, char **name, char **pass) /*{{
 
    if ((reqd == 0) && ((s->username == NULL) || (s->password == NULL)))
      return 0;
+
+   slrn_get_auth_from_env(s);
 
    if ((s->username == NULL) || (*s->username == 0))
      {

@@ -37,6 +37,7 @@
 
 % If a server requires authentication, add a nnrpaccess line for it.
 % If you leave username and/or password empty, slrn will prompt for it.
+% Alternatively you can set NNTPUSER and NNTPPASS environment variables.
 %nnrpaccess "news.doe.com" "john" "secret"
 
 % Some servers require authentication, but don't ask for it.

@@ -1368,6 +1368,10 @@
   startup. If your server requires a username, but no password, set it
   to a blank (" ") and you won't be prompted.
 
+  As an alternative to this, you can set NNTPUSER and NNTPPASS
+  environment variables. If those variables are set, slrn will try to use
+  those values for authenticating with the server.
+
   5.3.13.  posting_host
 
   Usage: posting_host hostname
