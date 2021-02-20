@@ -7,6 +7,11 @@ os:
 dist: focal
 osx_image: xcode12.2
 
+# Temporary until #2 is fixed.
+jobs:
+  allow_failures:
+    - os: osx
+
 compiler:
   - gcc
   - clang
