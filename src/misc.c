@@ -123,6 +123,20 @@ extern int h_errno;
 #endif
 /*}}}*/
 
+/*{{{ static function declarations and defines */
+/*
+  * C99 requires va_copy.  Older versions of GCC provide __va_copy.  Per the
+  * Autoconf manual, memcpy is a generally portable fallback.
+  */
+#ifndef va_copy
+	#ifdef __va_copy
+		#define va_copy(d, s) __va_copy((d), (s))
+	#else
+		#define va_copy(d, s) memcpy(&(d), &(s), sizeof(va_list))
+	#endif
+#endif
+/*}}}*/
+
 /*{{{ Global Variables */
 int Slrn_Full_Screen_Update = 1;
 int Slrn_User_Wants_Confirmation = SLRN_CONFIRM_ALL;
@@ -373,7 +387,7 @@ void slrn_verror (char *fmt, va_list ap)
 {
    va_list ap1;
 
-   VA_COPY(ap1, ap);
+   va_copy(ap1, ap);
 
    if ((Slrn_TT_Initialized & SLRN_SMG_INIT) == 0)
      {

@@ -751,6 +751,7 @@ infodir
 docdir
 oldincludedir
 includedir
+runstatedir
 localstatedir
 sharedstatedir
 sysconfdir
@@ -861,6 +862,7 @@ datadir='${datarootdir}'
 sysconfdir='${prefix}/etc'
 sharedstatedir='${prefix}/com'
 localstatedir='${prefix}/var'
+runstatedir='${localstatedir}/run'
 includedir='${prefix}/include'
 oldincludedir='/usr/include'
 docdir='${datarootdir}/doc/${PACKAGE}'
@@ -1113,6 +1115,15 @@ do
   | -silent | --silent | --silen | --sile | --sil)
     silent=yes ;;
 
+  -runstatedir | --runstatedir | --runstatedi | --runstated \
+  | --runstate | --runstat | --runsta | --runst | --runs \
+  | --run | --ru | --r)
+    ac_prev=runstatedir ;;
+  -runstatedir=* | --runstatedir=* | --runstatedi=* | --runstated=* \
+  | --runstate=* | --runstat=* | --runsta=* | --runst=* | --runs=* \
+  | --run=* | --ru=* | --r=*)
+    runstatedir=$ac_optarg ;;
+
   -sbindir | --sbindir | --sbindi | --sbind | --sbin | --sbi | --sb)
     ac_prev=sbindir ;;
   -sbindir=* | --sbindir=* | --sbindi=* | --sbind=* | --sbin=* \
@@ -1250,7 +1261,7 @@ fi
 for ac_var in	exec_prefix prefix bindir sbindir libexecdir datarootdir \
 		datadir sysconfdir sharedstatedir localstatedir includedir \
 		oldincludedir docdir infodir htmldir dvidir pdfdir psdir \
-		libdir localedir mandir
+		libdir localedir mandir runstatedir
 do
   eval ac_val=\$$ac_var
   # Remove trailing slashes.
@@ -1403,6 +1414,7 @@ Fine tuning of the installation directories:
   --sysconfdir=DIR        read-only single-machine data [PREFIX/etc]
   --sharedstatedir=DIR    modifiable architecture-independent data [PREFIX/com]
   --localstatedir=DIR     modifiable single-machine data [PREFIX/var]
+  --runstatedir=DIR       modifiable per-process data [LOCALSTATEDIR/run]
   --libdir=DIR            object code libraries [EPREFIX/lib]
   --includedir=DIR        C header files [PREFIX/include]
   --oldincludedir=DIR     C header files for non-gcc [/usr/include]
@@ -8560,164 +8572,6 @@ fi
 rm -f core conftest.err conftest.$ac_objext \
     conftest$ac_exeext conftest.$ac_ext
 
-
-
-
-
-
-    { $as_echo "$as_me:${as_lineno-$LINENO}: checking for an implementation of va_copy()" >&5
-$as_echo_n "checking for an implementation of va_copy()... " >&6; }
-if ${slrn_cv_va_copy+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-
-	if test "$cross_compiling" = yes; then :
-  { { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
-$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
-as_fn_error $? "cannot run test program while cross compiling
-See \`config.log' for more details" "$LINENO" 5; }
-else
-  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-
-	#include <stdarg.h>
-	void f (int i, ...) {
-	va_list args1, args2;
-	va_start (args1, i);
-	va_copy (args2, args1);
-	if (va_arg (args2, int) != 42 || va_arg (args1, int) != 42)
-	  exit (1);
-	va_end (args1); va_end (args2);
-	}
-	int main() {
-	  f (0, 42);
-	  return 0;
-	}
-_ACEOF
-if ac_fn_c_try_run "$LINENO"; then :
-  slrn_cv_va_copy=yes
-
-else
-  slrn_cv_va_copy=no
-
-fi
-rm -f core *.core core.conftest.* gmon.out bb.out conftest$ac_exeext \
-  conftest.$ac_objext conftest.beam conftest.$ac_ext
-fi
-
-
-fi
-
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $slrn_cv_va_copy" >&5
-$as_echo "$slrn_cv_va_copy" >&6; }
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for an implementation of __va_copy()" >&5
-$as_echo_n "checking for an implementation of __va_copy()... " >&6; }
-if ${slrn_cv___va_copy+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-
-	if test "$cross_compiling" = yes; then :
-  { { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
-$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
-as_fn_error $? "cannot run test program while cross compiling
-See \`config.log' for more details" "$LINENO" 5; }
-else
-  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-
-	#include <stdarg.h>
-	void f (int i, ...) {
-	va_list args1, args2;
-	va_start (args1, i);
-	__va_copy (args2, args1);
-	if (va_arg (args2, int) != 42 || va_arg (args1, int) != 42)
-	  exit (1);
-	va_end (args1); va_end (args2);
-	}
-	int main() {
-	  f (0, 42);
-	  return 0;
-	}
-_ACEOF
-if ac_fn_c_try_run "$LINENO"; then :
-  slrn_cv___va_copy=yes
-
-else
-  slrn_cv___va_copy=no
-
-fi
-rm -f core *.core core.conftest.* gmon.out bb.out conftest$ac_exeext \
-  conftest.$ac_objext conftest.beam conftest.$ac_ext
-fi
-
-
-fi
-
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $slrn_cv___va_copy" >&5
-$as_echo "$slrn_cv___va_copy" >&6; }
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking whether va_lists can be copied by value" >&5
-$as_echo_n "checking whether va_lists can be copied by value... " >&6; }
-if ${slrn_cv_va_val_copy+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-
-	if test "$cross_compiling" = yes; then :
-  { { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
-$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
-as_fn_error $? "cannot run test program while cross compiling
-See \`config.log' for more details" "$LINENO" 5; }
-else
-  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-
-	#include <stdarg.h>
-	void f (int i, ...) {
-	va_list args1, args2;
-	va_start (args1, i);
-	args2 = args1;
-	if (va_arg (args2, int) != 42 || va_arg (args1, int) != 42)
-	  exit (1);
-	va_end (args1); va_end (args2);
-	}
-	int main() {
-	  f (0, 42);
-	  return 0;
-	}
-_ACEOF
-if ac_fn_c_try_run "$LINENO"; then :
-  slrn_cv_va_val_copy=yes
-
-else
-  slrn_cv_va_val_copy=no
-
-fi
-rm -f core *.core core.conftest.* gmon.out bb.out conftest$ac_exeext \
-  conftest.$ac_objext conftest.beam conftest.$ac_ext
-fi
-
-
-fi
-
-
-if test "x$slrn_cv_va_copy" = "xyes"
-then
-  $as_echo "#define VA_COPY va_copy" >>confdefs.h
-
-else
-  if test "x$slrn_cv___va_copy" = "xyes"
-  then
-    $as_echo "#define VA_COPY __va_copy" >>confdefs.h
-
-  fi
-fi
-
-if test "x$slrn_cv_va_val_copy" = "xno"
-then
-  $as_echo "#define VA_COPY_AS_ARRAY 1" >>confdefs.h
-
-fi
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $slrn_cv_va_val_copy" >&5
-$as_echo "$slrn_cv_va_val_copy" >&6; }
 
 
 
