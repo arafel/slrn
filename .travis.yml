@@ -1,4 +1,23 @@
-dist: focal
+language: c
+
+os:
+  - linux
+  - osx
+
+compiler:
+  - gcc
+  - clang
+
+jobs:
+  include:
+    - os: linux
+      dist: focal
+    - os: osx
+      osx_image: xcode12.2
+
+before_install:
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then HOMEBREW_NO_INSTALL_CLEANUP=1 HOMEBREW_NO_AUTO_UPDATE=1 brew install s-lang ; fi
+
 addons:
   apt:
     update: true
@@ -8,9 +27,6 @@ addons:
     - libslang2-dev
     - libssl-dev
     - libuu-dev
-language: c
-compiler:
-  - gcc
-  - clang
+
 # No 'make test' yet
 script: ./configure && make
