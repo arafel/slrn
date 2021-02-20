@@ -1,0 +1,16 @@
+dist: focal
+addons:
+  apt:
+    update: true
+    packages:
+    - chrpath
+    - libcanlock-dev
+    - libslang2-dev
+    - libssl-dev
+    - libuu-dev
+language: c
+compiler:
+  - gcc
+  - clang
+# No 'make test' yet
+script: ./configure && make
