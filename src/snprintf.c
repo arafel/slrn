@@ -9,7 +9,7 @@
  Modified by the GLib Team and others 1997-1999.  See the AUTHORS
  file for a list of people on the GLib Team.  See the ChangeLog
  files for a list of changes.  These files are distributed with
- GLib at ftp://ftp.gtk.org/pub/gtk/. 
+ GLib at ftp://ftp.gtk.org/pub/gtk/.
 
  This program is free software; you can redistribute it and/or modify it
  under the terms of the GNU General Public License as published by the Free
@@ -47,19 +47,17 @@
 /*{{{ static function declarations and defines */
 static unsigned int printf_string_upper_bound (const char*, va_list);
 
-/* Define VA_COPY() to do the right thing for copying va_list variables.
- * config.h may have already defined VA_COPY as va_copy or __va_copy.
- */
-#ifndef VA_COPY
-# if (defined (__GNUC__) && defined (__PPC__) && (defined (_CALL_SYSV) || defined (__WIN32__))) || defined (__WATCOMC__)
-#  define VA_COPY(ap1, ap2)	  (*(ap1) = *(ap2))
-# elif defined (VA_COPY_AS_ARRAY)
-#  define VA_COPY(ap1, ap2)	  memmove ((ap1), (ap2), sizeof (va_list))
-# else /* va_list is a pointer */
-#  define VA_COPY(ap1, ap2)	  ((ap1) = (ap2))
-# endif /* va_list is a pointer */
-#endif /* !VA_COPY */
-
+/*
+  * C99 requires va_copy.  Older versions of GCC provide __va_copy.  Per the
+  * Autoconf manual, memcpy is a generally portable fallback.
+  */
+#ifndef va_copy
+	#ifdef __va_copy
+		#define va_copy(d, s) __va_copy((d), (s))
+	#else
+		#define va_copy(d, s) memcpy(&(d), &(s), sizeof(va_list))
+	#endif
+#endif
 /*}}}*/
 
 /* Remember that you explicitly need to pass NULL as the final argument! */
@@ -69,9 +67,9 @@ char *slrn_strdup_strcat (const char *str, ...) /*{{{*/
    const char *p;
    unsigned int len = 0;
    va_list args;
-   
+
    if ((p = str) == NULL) return NULL;
-   
+
    va_start (args, str);
    while (p != NULL)
      {
@@ -79,9 +77,9 @@ char *slrn_strdup_strcat (const char *str, ...) /*{{{*/
 	p = va_arg (args, const char *);
      }
    va_end (args);
-   
+
    cur = buffer = slrn_safe_malloc (len + 1);
-   
+
    va_start (args, str);
    p = str;
    while (p != NULL)
@@ -91,7 +89,7 @@ char *slrn_strdup_strcat (const char *str, ...) /*{{{*/
 	cur += strlen (cur);
      }
    va_end (args);
-   
+
    return buffer;
 }
 /*}}}*/
@@ -100,16 +98,16 @@ char *slrn_strdup_vprintf (const char *format, va_list args1) /*{{{*/
 {
    char *buffer;
    va_list args2;
-   
+
    if (format == NULL) return NULL;
-   
-   VA_COPY (args2, args1);
-   
+
+   va_copy (args2, args1);
+
    buffer = slrn_safe_malloc (printf_string_upper_bound (format, args1));
-   
+
    vsprintf (buffer, format, args2); /* safe */
    va_end (args2);
-   
+
    return buffer;
 }
 
@@ -119,29 +117,29 @@ char *slrn_strdup_printf (const char *format, ... ) /*{{{*/
 {
    va_list args;
    char *retval;
-   
+
    va_start (args, format);
    retval = slrn_strdup_vprintf (format, args);
    va_end (args);
-   
+
    return retval;
 }
 
 /*}}}*/
 
 int slrn_vsnprintf (char *str, size_t n, const char *format, /*{{{*/
-		    va_list ap) 
+		    va_list ap)
 {
    int retval;
-   
+
    retval = vsnprintf (str, n, format, ap);
-   
+
    if ((retval == -1) || (retval > (int) n))
      {
 	str[n-1] = '\0';
 	retval = (int) n;
      }
-   
+
    return retval;
 }
 
@@ -151,17 +149,17 @@ int slrn_snprintf (char *str, size_t n, const char *format, ... ) /*{{{*/
 {
    va_list args;
    int retval;
-   
+
    va_start (args, format);
    retval = vsnprintf (str, n, format, args);
    va_end (args);
-   
+
    if ((retval == -1) || (retval > (int) n))
      {
 	str[n-1] = '\0';
 	retval = (int) n;
      }
-   
+
    return retval;
 }
 
@@ -173,7 +171,7 @@ int snprintf (char *str, size_t n, const char *format, ... ) /*{{{*/
    va_list args;
    int retval;
    char *printed;
-   
+
    if (str == NULL) return 0;
    if (n <= 0) return 0;
    if (format == NULL) return 0;
@@ -181,12 +179,12 @@ int snprintf (char *str, size_t n, const char *format, ... ) /*{{{*/
    va_start (args, format);
    printed = slrn_strdup_vprintf (format, args);
    va_end (args);
-   
+
    strncpy (str, printed, n);
    retval = strlen (printed); /* behave like glibc 2.1 */
-   
+
    slrn_free (printed);
-   
+
    return retval;
 }
 
@@ -196,17 +194,17 @@ int vsnprintf (char *str, size_t n, const char *format, va_list ap) /*{{{*/
 {
    char *printed;
    int retval;
-   
+
    if (str == NULL) return 0;
    if (n <= 0) return 0;
    if (format == NULL) return 0;
-   
+
    printed = slrn_strdup_vprintf (format, ap);
    strncpy (str, printed, n);
    retval = strlen (printed); /* behave like glibc 2.1 */
-   
+
    slrn_free (printed);
-   
+
    return retval;
 }
 
@@ -221,25 +219,25 @@ static unsigned int printf_string_upper_bound (const char* format, /*{{{*/
 					       va_list args)
 {
    unsigned int len = 1;
-   
+
    while (*format)
      {
 	int long_int = 0;
 	int extra_long = 0;
 	char c;
-	
+
 	c = *format++;
-	
+
 	if (c == '%')
 	  {
 	     int done = 0;
-	     
+
 	     while (*format && !done)
 	       {
 		  switch (*format++)
 		    {
 		       char *string_arg;
-		       
+
 		     case '*':
 		       len += va_arg (args, int);
 		       break;
@@ -343,7 +341,7 @@ static unsigned int printf_string_upper_bound (const char* format, /*{{{*/
 	else
 	  len += 1;
      }
-   
+
    return len;
 }
 
