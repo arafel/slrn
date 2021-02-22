@@ -507,9 +507,11 @@ else
    MISC_TERMINFO_DIRS=""
 fi
 JD_Terminfo_Dirs="$MISC_TERMINFO_DIRS \
+                  /etc/terminfo \
                   /usr/lib/terminfo \
                   /usr/share/terminfo \
                   /usr/share/lib/terminfo \
+                  /lib/terminfo \
 		  /usr/local/lib/terminfo"
 TERMCAP=-ltermcap
 
