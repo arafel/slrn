@@ -1,3 +1,5 @@
+![Travis CI build status](https://travis-ci.com/arafel/slrn.svg?branch=master)
+
 # slrn
 
 ## Overview
