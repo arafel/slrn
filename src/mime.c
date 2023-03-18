@@ -1601,8 +1601,7 @@ static char *
    while (u < ustrmax)
      {
 	SLuchar_Type ch, *u1;
-	unsigned int dnum;
-	unsigned int dnbytes;
+	SLstrlen_Type dnum, dnbytes;
 
 	ch = *u;
 	u1 = SLutf8_skip_chars (u, ustrmax, 1, &dnum, 0);

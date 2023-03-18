@@ -37,6 +37,8 @@
 # include <stdlib.h>
 #endif
 
+#include <slang.h>
+
 #include "jdmacros.h"
 #include "snprintf.h"
 #include "util.h"

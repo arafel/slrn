@@ -876,7 +876,7 @@ void slrn_quit (int retcode) /*{{{*/
 
 /*}}}*/
 
-void slrn_va_exit_error (char *fmt, va_list ap)
+void slrn_va_exit_error (SLFUTURE_CONST char *fmt, va_list ap)
 {
    static int trying_to_exit;
 

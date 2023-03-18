@@ -214,7 +214,7 @@ Slrn_Article_Type;
 extern Slrn_Article_Type *Slrn_Current_Article;
 
 extern Slrn_Header_Type *slrn_find_header_with_msgid (char *);
-extern int slrn_set_visible_headers (char *);
+extern int slrn_set_visible_headers (SLFUTURE_CONST char *);
 
 extern char *Slrn_Visible_Headers_String;
 extern int slrn_is_hidden_headers_mode (void);
@@ -270,7 +270,7 @@ extern int slrn_string_to_article (char *str, int handle_mime, int cooked);
 extern int Slrn_Color_By_Score;
 extern int Slrn_Highlight_Unread;
 
-extern int slrn_set_header_format (unsigned int, char *);
+extern int slrn_set_header_format (unsigned int, SLFUTURE_CONST char *);
 extern char *slrn_get_header_format (int num);   /* un-malloced */
 
 extern void slrn_art_sync_article (Slrn_Article_Type *);

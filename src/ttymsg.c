@@ -29,7 +29,7 @@
 #include "ttymsg.h"
 #include "common.h"
 
-void slrn_tty_vmessage (FILE *fp, char *fmt, va_list ap)
+void slrn_tty_vmessage (FILE *fp, SLFUTURE_CONST char *fmt, va_list ap)
 {
    static FILE *last_fp;
    char *b, buf[1024];

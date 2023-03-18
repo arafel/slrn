@@ -764,7 +764,7 @@ static void add_unsubscribed_group (unsigned char *name) /*{{{*/
 static char *Group_Display_Formats [SLRN_MAX_DISPLAY_FORMATS];
 static unsigned int Group_Format_Number;
 
-int slrn_set_group_format (unsigned int num, char *fmt)
+int slrn_set_group_format (unsigned int num, SLFUTURE_CONST char *fmt)
 {
    return slrn_set_display_format (Group_Display_Formats, num, fmt);
 }
@@ -3116,7 +3116,7 @@ void slrn_intr_get_group_order (void) /*{{{*/
 {
    Slrn_Group_Type *g;
    SLang_Array_Type *retval;
-   int n = 0;
+   SLindex_Type n = 0;
 
    g = Groups;
    while (g != NULL)
@@ -3150,7 +3150,7 @@ void slrn_intr_set_group_order (void) /*{{{*/
 {
    SLang_Array_Type *at;
    Slrn_Group_Type *last, *rest, *g;
-   int i, rows;
+   SLindex_Type i, rows;
 
    if (-1 == SLang_pop_array_of_type (&at, SLANG_STRING_TYPE))
      {

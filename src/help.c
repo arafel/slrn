@@ -834,7 +834,7 @@ char *slrn_help_keyseq_to_string (char *key, int keylen) /*{{{*/
 /* Returns the corresponding key sequence for a human-friendly representation.
  * Please note that the result is stored in a local static variable and may be
  * NULL if the sequence would be too large. */
-char *slrn_help_string_to_keyseq (char *s) /*{{{*/
+char *slrn_help_string_to_keyseq (SLFUTURE_CONST char *s) /*{{{*/
 {
    /* We're using a nul-terminated representation here */
    static char result [SLANG_MAX_KEYMAP_KEY_SEQ+1];
@@ -844,7 +844,7 @@ char *slrn_help_string_to_keyseq (char *s) /*{{{*/
    while (slen && (ind <= SLANG_MAX_KEYMAP_KEY_SEQ))
      {
 	char *end;
-	if ((*s == '<') && (NULL != (end = slrn_strbyte (s,'>'))))
+	if ((*s == '<') && (NULL != (end = slrn_strbyte (s, '>'))))
 	  {
 	     int i;
 	     int len = end-s-1;

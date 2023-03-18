@@ -219,7 +219,7 @@ static void fixup_path (char *path) /*{{{*/
 /* dir and file could be the same in which case this performs a strcat.
  * If name looks like an absolute path, it will be returned.
  */
-int slrn_dircat (char *dir, char *name, char *file, size_t n)
+int slrn_dircat (SLFUTURE_CONST char *dir, SLFUTURE_CONST char *name, char *file, size_t n)
 {
    unsigned int len = 0;
 #ifdef __CYGWIN__
@@ -326,7 +326,7 @@ char *slrn_fix_regexp (char *pat) /*{{{*/
 
 /*}}}*/
 
-int slrn_is_absolute_path (char *path)
+int slrn_is_absolute_path (SLFUTURE_CONST char *path)
 {
    if (path == NULL)
      return 0;
@@ -355,7 +355,7 @@ char *slrn_spool_dircat (char *root, char *name, int map_dots)
 
    len = strlen (root);
 
-   spool_group = SLmalloc (strlen (name) + len + 2);
+   spool_group = (char *)SLmalloc (strlen (name) + len + 2);
    if (spool_group == NULL)
      {
 	slrn_exit_error (_("Out of memory."));

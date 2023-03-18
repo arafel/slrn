@@ -178,7 +178,7 @@ static char *vgets_internal(VFILE *vp, unsigned int *num) /*{{{*/
 	if (!n) n = 64 * 1024;
 #endif
 
-	if (NULL == (neew = SLmalloc(n + 1)))
+	if (NULL == (neew = (char *)SLmalloc(n + 1)))
 	  return NULL;
 
 	vp->bp = vp->buf = neew;
@@ -337,7 +337,7 @@ static char *vgets_internal(VFILE *vp, unsigned int *num) /*{{{*/
 	  {
 	     bp = bmax;
 	     vp->bmax += 2 * (int) (vp->bmax - vp->buf);
-	     neew = SLrealloc (vp->buf, 1 + (unsigned int) (vp->bmax - vp->buf));
+	     neew = (char *)SLrealloc (vp->buf, 1 + (unsigned int) (vp->bmax - vp->buf));
 	     if (neew == NULL)
 	       return NULL;
 

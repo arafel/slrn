@@ -18,7 +18,7 @@
  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 extern int slrn_init_slang (void);
-extern int slrn_eval_slang_file (char *);
-extern int slrn_set_macro_dir (char *dir);
+extern int slrn_eval_slang_file (SLFUTURE_CONST char *);
+extern int slrn_set_macro_dir (SLFUTURE_CONST char *dir);
 extern char *slrn_get_macro_dir (void);
 extern int slrn_reset_slang (void);

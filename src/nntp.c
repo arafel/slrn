@@ -396,7 +396,7 @@ static char * _nntp_get_recom_id (void)
 #endif
 	if (t != NULL)
 	  {
-	     unsigned int len;
+	     SLstrlen_Type len;
 #if SLANG_VERSION < 20000
 	     len = re->end_matches[0];
 #else

@@ -82,7 +82,7 @@ static void parse_rfc2822_intrin (char *header)
 
 /*{{{ Screen update and message functions */
 
-static void error (char *msg) /*{{{*/
+static void error (SLFUTURE_CONST char *msg) /*{{{*/
 {
    slrn_error ("%s", msg);
 }
@@ -275,7 +275,7 @@ static void make_home_filename (char *name) /*{{{*/
 
 /*}}}*/
 
-int slrn_eval_slang_file (char *name) /*{{{*/
+int slrn_eval_slang_file (SLFUTURE_CONST char *name) /*{{{*/
 {
 #if 0
    char file [SLRN_MAX_PATH_LEN];
@@ -319,7 +319,7 @@ int slrn_eval_slang_file (char *name) /*{{{*/
 #endif
 }
 
-int slrn_set_macro_dir (char *dir)
+int slrn_set_macro_dir (SLFUTURE_CONST char *dir)
 {
    if (-1 == SLang_run_hooks ("slrn_set_macro_dir_hook", 1, dir))
      return -1;
@@ -405,7 +405,7 @@ static void generic_set_regexp (SLRegexp_Type **regexp_table) /*{{{*/
 {
    SLang_Array_Type *at;
    SLcmd_Cmd_Table_Type cmd_table;
-   int argc, i;
+   SLindex_Type argc, i;
 
    if (-1 == SLang_pop_array_of_type (&at, SLANG_STRING_TYPE))
      {
@@ -428,7 +428,7 @@ static void generic_set_regexp (SLRegexp_Type **regexp_table) /*{{{*/
 	goto free_and_return;
      }
 
-   if (NULL == (cmd_table.string_args = (char**) slrn_malloc
+   if (NULL == (cmd_table.string_args = (SLFUTURE_CONST char**) slrn_malloc
 		((argc+1)*sizeof(char*), 0, 0)))
      goto free_and_return;
 
@@ -854,7 +854,7 @@ static char *generic_article_as_string (int use_orig) /*{{{*/
 
    if (Slrn_Current_Article == NULL)
      {
-	s = SLmalloc (1);
+	s = (char *)SLmalloc (1);
 	if (s != NULL) s[0] = 0;
 	return s;
      }
@@ -1382,7 +1382,7 @@ static void open_log_file (char *file)
      slrn_error (_("Unable to open log file %s"), file);
 }
 
-static void log_message (char *buf)
+static void log_message (SLFUTURE_CONST char *buf)
 {
    FILE *fp;
 

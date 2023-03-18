@@ -27,7 +27,7 @@
 #include "ttymsg.h"
 #include "vfile.h"
 
-extern void slrn_make_home_filename (char *, char *, size_t);
+extern void slrn_make_home_filename (SLFUTURE_CONST char *, char *, size_t);
 extern void slrn_make_home_dirname (char *, char *, size_t);
 extern void slrn_redraw (void);
 extern void slrn_update_screen (void);
@@ -42,7 +42,7 @@ typedef char *(PRINTF_CB)(char, void *, int *, int *);
 extern void slrn_custom_printf (char *, PRINTF_CB, void *, int, int);
 extern void slrn_write_nbytes (char *, unsigned int);
 
-extern int slrn_set_display_format (char **, unsigned int, char *);
+extern int slrn_set_display_format (char **, unsigned int, SLFUTURE_CONST char *);
 extern unsigned int slrn_toggle_format (char **, unsigned int);
 
 extern FILE *slrn_open_home_file (char *, char *, char *, size_t, int);
@@ -58,7 +58,7 @@ extern void slrn_update_top_status_line (void);
 extern void slrn_set_color (int);
 extern char slrn_map_translated_char (char *, char *, char);
 extern char slrn_get_response (char *, char *, char *str, ...) ATTRIBUTE_PRINTF(3,4);
-extern int slrn_is_fqdn (char *);
+extern int slrn_is_fqdn (SLFUTURE_CONST char *);
 extern int slrn_init_readline (void);
 extern int slrn_check_batch (void);
 
@@ -123,9 +123,9 @@ typedef unsigned char SLuchar_Type;
 
 extern SLKeyMap_List_Type *Slrn_RLine_Keymap;
 extern SLang_RLine_Info_Type *Slrn_Keymap_RLI;
-extern int slrn_rline_setkey (char *, char *, SLkeymap_Type *);
+extern int slrn_rline_setkey (SLFUTURE_CONST char *, SLFUTURE_CONST char *, SLkeymap_Type *);
 
-extern void slrn_va_message (char *, va_list);
+extern void slrn_va_message (SLFUTURE_CONST char *, va_list);
 
 #if SLRN_HAS_PIPING
 extern int _slrn_pclose (FILE *);

@@ -35,6 +35,8 @@
 # include <unistd.h>
 #endif
 
+#include <slang.h>
+
 #include "parse2822.h"
 #include "strutil.h"
 

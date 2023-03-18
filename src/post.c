@@ -879,6 +879,8 @@ static Slrn_Mime_Error_Obj *
    Slrn_Mime_Error_Obj *err = NULL;
    Slrn_Article_Line_Type *raw_line=a->raw_lines;
 
+   (void) mail;
+
    if (qs == NULL) qs = ">";
    qlen = strlen (qs);
 

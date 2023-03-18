@@ -130,7 +130,7 @@ static unsigned char *is_matching_line (unsigned char *b, SLRegexp_Type **r) /*{
    while (*r != NULL)
      {
 	SLRegexp_Type *re;
-	unsigned int match_len;
+	SLstrlen_Type match_len;
 
 	re = *r++;
 #if SLANG_VERSION < 20000
@@ -248,8 +248,7 @@ static int try_supercite (Slrn_Article_Line_Type *l) /*{{{*/
    unsigned char *b;
    int count;
    char name[32];
-   unsigned int len;
-   unsigned int ofs;
+   SLstrlen_Type len, ofs;
    int ret;
 
 #if SLANG_VERSION < 20000
@@ -829,7 +828,7 @@ static void free_visible_header_list (void) /*{{{*/
 
 /*}}}*/
 
-int slrn_set_visible_headers (char *headers) /*{{{*/
+int slrn_set_visible_headers (SLFUTURE_CONST char *headers) /*{{{*/
 {
    char buf[256];
    unsigned int nth;

@@ -77,29 +77,29 @@ char *slrn_trim_string (char *s) /*{{{*/
 }
 /*}}}*/
 
-char *slrn_strbyte (char *s, char ch) /*{{{*/
+char *slrn_strbyte (SLFUTURE_CONST char *s, char ch) /*{{{*/
 {
    register char ch1;
 
    while (((ch1 = *s) != 0) && (ch != ch1)) s++;
    if (ch1 == 0) return NULL;
-   return s;
+   return (char *)s;
 }
 
 /*}}}*/
 
 /* Search for characters from list in string str.  If found, return a pointer
  * to the first occurrence.  If not found, return NULL. */
-char *slrn_strbrk (char *str, char *list) /*{{{*/
+char *slrn_strbrk (SLFUTURE_CONST char *str, SLFUTURE_CONST char *list) /*{{{*/
 {
-   char ch, ch1, *p;
+   char ch, ch1;
 
    while ((ch = *str) != 0)
      {
-	p = list;
+	const char *p = list;
 	while ((ch1 = *p) != 0)
 	  {
-	     if (ch == ch1) return str;
+	     if (ch == ch1) return (char *)str;
 	     p++;
 	  }
 	str++;
@@ -133,9 +133,9 @@ char *slrn_simple_strtok (char *s, char *chp) /*{{{*/
 
 /*}}}*/
 
-int slrn_case_strncmp (char *a, char *b, unsigned int n) /*{{{*/
+int slrn_case_strncmp (SLFUTURE_CONST char *a, SLFUTURE_CONST char *b, unsigned int n) /*{{{*/
 {
-   char *bmax;
+   SLFUTURE_CONST char *bmax;
 
    if (a == NULL)
      {
@@ -169,7 +169,7 @@ int slrn_case_strncmp (char *a, char *b, unsigned int n) /*{{{*/
 
 /*}}}*/
 
-int slrn_case_strcmp (char *a, char *b) /*{{{*/
+int slrn_case_strcmp (SLFUTURE_CONST char *a, SLFUTURE_CONST char *b) /*{{{*/
 {
    register unsigned char cha, chb;
    int len_a,len_b;
@@ -228,11 +228,11 @@ static char *do_malloc_error (int do_error)
    return NULL;
 }
 
-char *slrn_safe_strmalloc (char *s) /*{{{*/
+char *slrn_safe_strmalloc (SLFUTURE_CONST char *s) /*{{{*/
 {
-   s = SLmake_string (s);
-   if (s == NULL) slrn_exit_error (_("Out of memory."));
-   return s;
+   char *s1 = SLmake_string (s);
+   if (s1 == NULL) slrn_exit_error (_("Out of memory."));
+   return s1;
 }
 
 /*}}}*/
@@ -279,7 +279,7 @@ char *slrn_realloc (char *s, unsigned int len, int do_error)
    if (s == NULL)
      return slrn_malloc (len, 0, do_error);
 
-   s = SLrealloc (s, len);
+   s = (char *)SLrealloc (s, len);
    if (s == NULL)
      return do_malloc_error (do_error);
 

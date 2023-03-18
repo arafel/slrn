@@ -342,7 +342,7 @@ static void redraw_message (void)
    slrn_pop_suspension ();
 }
 
-static void vmessage_1 (int color, char *fmt, va_list ap)
+static void vmessage_1 (int color, SLFUTURE_CONST char *fmt, va_list ap)
 {
    slrn_vsnprintf (Message_Buffer + 1, sizeof(Message_Buffer)-1, fmt, ap);
 
@@ -351,7 +351,7 @@ static void vmessage_1 (int color, char *fmt, va_list ap)
    redraw_message ();
 }
 
-static void vmessage (FILE *fp, char *fmt, va_list ap)
+static void vmessage (FILE *fp, SLFUTURE_CONST char *fmt, va_list ap)
 {
    if (Slrn_TT_Initialized & SLRN_SMG_INIT)
      vmessage_1 (MESSAGE_COLOR, fmt, ap);
@@ -420,7 +420,7 @@ void slrn_clear_error (void)
    slrn_clear_message ();
 }
 
-void slrn_va_message (char *fmt, va_list ap)
+void slrn_va_message (SLFUTURE_CONST char *fmt, va_list ap)
 {
    if (Error_Present == 0)
      vmessage (stdout, fmt, ap);
@@ -688,7 +688,7 @@ void slrn_custom_printf (char *fmt, PRINTF_CB cb, void *param, /*{{{*/
 }
 /*}}}*/
 
-int slrn_set_display_format (char **formats, unsigned int num, char *entry) /*{{{*/
+int slrn_set_display_format (char **formats, unsigned int num, SLFUTURE_CONST char *entry) /*{{{*/
 {
    if (num >= SLRN_MAX_DISPLAY_FORMATS)
      return -1;
@@ -771,7 +771,7 @@ static int vms_copyname2 (char *name, int type)
 /*}}}*/
 #endif
 
-void slrn_make_home_filename (char *name, char *file, size_t n) /*{{{*/
+void slrn_make_home_filename (SLFUTURE_CONST char *name, char *file, size_t n) /*{{{*/
 {
    char *home;
 #ifndef VMS
@@ -1116,6 +1116,8 @@ int slrn_mail_file (char *file, int edit, unsigned int editline, char *to, char 
    char *buf;
    char outfile [SLRN_MAX_PATH_LEN];
 #endif
+
+   (void) subject;
 
    if (edit && (Slrn_Batch == 0))
      {
@@ -1576,8 +1578,8 @@ int slrn_edit_file (char *editor, char *file, unsigned int line,
 
 /*{{{ Get Input From User Related Functions */
 
-static void rline_update (SLrline_Type *rli, char *prompt,
-			  char *buf, unsigned int len, unsigned int point,
+static void rline_update (SLrline_Type *rli, SLFUTURE_CONST char *prompt,
+			  SLFUTURE_CONST char *buf, unsigned int len, unsigned int point,
 			  VOID_STAR client_data)
 {
    int col;
@@ -2090,7 +2092,7 @@ static SLKeymap_Function_Type Slrn_Custom_Readline_Functions [] =
    A_KEY(NULL, NULL)
 };
 
-int slrn_rline_setkey (char *key, char *fun, SLkeymap_Type *kmap)
+int slrn_rline_setkey (SLFUTURE_CONST char *key, SLFUTURE_CONST char *fun, SLkeymap_Type *kmap)
 {
    SLKeymap_Function_Type *tmp;
    int failure;
@@ -2571,7 +2573,7 @@ unsigned char *slrn_regexp_match (SLRegexp_Type *re, char *str) /*{{{*/
 
 /*}}}*/
 
-int slrn_is_fqdn (char *h) /*{{{*/
+int slrn_is_fqdn (SLFUTURE_CONST char *h) /*{{{*/
 {
    char *p;
 

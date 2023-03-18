@@ -1015,7 +1015,7 @@ static char *quote_url (char *url)
 	p++;
      }
 
-   new_url = SLmalloc (len + 1);
+   new_url = (char *)SLmalloc (len + 1);
    if (new_url == NULL)
      return NULL;
    p = new_url;
@@ -2881,7 +2881,7 @@ static char *subject_skip_re (char *subject) /*{{{*/
 #if SLANG_VERSION < 20000
 		  subject = subject + re->end_matches[0];
 #else
-		  unsigned int ofs, mlen;
+		  SLstrlen_Type ofs, mlen;
 		  (void) SLregexp_nth_match (re, 0, &ofs, &mlen);
 		  subject += mlen;
 #endif
@@ -8076,7 +8076,7 @@ static char *Header_Display_Formats [SLRN_MAX_DISPLAY_FORMATS];
 static unsigned int Header_Format_Number;
 static char *Default_Header_Format = "%F%B%-5S%G%-5l:[%12r]%t%s";
 
-int slrn_set_header_format (unsigned int num, char *fmt)
+int slrn_set_header_format (unsigned int num, SLFUTURE_CONST char *fmt)
 {
    return slrn_set_display_format (Header_Display_Formats, num, fmt);
 }
@@ -8990,7 +8990,7 @@ static void display_article_line (Slrn_Article_Line_Type *l)
       case VERBATIM_MARK_LINE|VERBATIM_LINE:
 	if (Slrn_Verbatim_Marks_Hidden)
 	  lbuf = "";
-	/* drop */
+	/* fall through */
       case VERBATIM_LINE:
 	color = VERBATIM_COLOR;
 	break;

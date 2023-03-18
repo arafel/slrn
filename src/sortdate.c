@@ -23,6 +23,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
+#include <slang.h>
 #include "jdmacros.h"
 #include "sortdate.h"
 #include "strutil.h"

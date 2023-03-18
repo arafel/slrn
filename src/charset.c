@@ -77,7 +77,7 @@ void slrn_prepare_charset (void)
 }
 
 /* returns 1 if *str contains chars not in us-ascii, 0 else */
-int slrn_string_nonascii(char *str)
+int slrn_string_nonascii (SLFUTURE_CONST char *str)
 {
   while(*str != '\0')
     {
@@ -189,13 +189,13 @@ static int iconv_convert_string (iconv_t cd, char *str, size_t len, int test, ch
 /* Guess a character set from the bytes in the string -- it returns a
  * malloced string.
  */
-char *slrn_guess_charset (char *str, char *strmax)
+char *slrn_guess_charset (SLFUTURE_CONST char *str, SLFUTURE_CONST char *strmax)
 {
    char *charset = "us-ascii";
 
    while (str < strmax)
      {
-	unsigned int nconsumed;
+	SLstrlen_Type nconsumed;
 	SLwchar_Type wch;
 
 	if ((*str & 0x80) == 0)
@@ -220,13 +220,15 @@ char *slrn_guess_charset (char *str, char *strmax)
    return slrn_strmalloc (charset, 1);
 }
 
-char *slrn_convert_string (char *from, char *str, char *strmax, char *to, int test)
+char *slrn_convert_string (char *from, SLFUTURE_CONST char *instr, SLFUTURE_CONST char *strmax, char *to, int test)
 {
 #ifdef HAVE_ICONV
    iconv_t cd;
    int status;
-   char *substr;
+   char *substr, *str;
    int free_from = 0;
+
+   str = (char *)instr;
 
    if ((from == NULL)
        || (0 == slrn_case_strcmp (from, "unknown-8bit"))
@@ -291,7 +293,7 @@ char *slrn_convert_string (char *from, char *str, char *strmax, char *to, int te
 #endif
 }
 
-char *slrn_convert_substring(char *str, unsigned int offset, unsigned int len, char *to_charset, char *from_charset, int test)
+char *slrn_convert_substring (SLFUTURE_CONST char *str, unsigned int offset, unsigned int len, char *to_charset, char *from_charset, int test)
 {
    char *substr;
    char *new_str;
@@ -329,7 +331,7 @@ char *slrn_convert_substring(char *str, unsigned int offset, unsigned int len, c
    return new_str;
 }
 
-int slrn_test_and_convert_string(char *str, char **dest, char *to_charset, char *from_charset)
+int slrn_test_and_convert_string (SLFUTURE_CONST char *str, char **dest, char *to_charset, char *from_charset)
 {
    if (dest == NULL)
 	return -1;

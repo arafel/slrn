@@ -26,13 +26,13 @@ extern char *Slrn_Score_File;
 extern int Slrn_Scroll_By_Page;
 extern int Slrn_Saw_Obsolete;
 
-extern int slrn_set_string_variable (char *, char *, char *);
-extern int slrn_set_integer_variable (char *, int);
+extern int slrn_set_string_variable (SLFUTURE_CONST char *, SLFUTURE_CONST char *, char *);
+extern int slrn_set_integer_variable (SLFUTURE_CONST char *, int);
 extern int slrn_get_variable_value (char *, SLtype *, char **, int *);
 extern int slrn_get_authorization (char *, int, char **, char **);
-extern int slrn_set_object_color (char *, char *, char *, SLtt_Char_Type);
+extern int slrn_set_object_color (SLFUTURE_CONST char *, SLFUTURE_CONST char *, SLFUTURE_CONST char *, SLtt_Char_Type);
 extern char *slrn_get_object_color (char *, int);
-extern int slrn_add_to_server_list (char *, char *, char *, char *);
+extern int slrn_add_to_server_list (SLFUTURE_CONST char *, SLFUTURE_CONST char *, SLFUTURE_CONST char *, SLFUTURE_CONST char *);
 
 extern char *slrn_get_charset (char *name);
 

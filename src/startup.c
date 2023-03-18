@@ -250,9 +250,9 @@ static char *Art_Obsolete_Names [] =
 
 static int setkey_fun (int argc, SLcmd_Cmd_Table_Type *table) /*{{{*/
 {
-   char *map = table->string_args[1];
-   char *fun = table->string_args[2];
-   char *key = table->string_args[3];
+   SLFUTURE_CONST char *map = table->string_args[1];
+   SLFUTURE_CONST char *fun = table->string_args[2];
+   SLFUTURE_CONST char *key = table->string_args[3];
    SLKeyMap_List_Type *kmap = NULL;
    char **obsolete_names = NULL;
    int failure;
@@ -313,7 +313,7 @@ static int setkey_fun (int argc, SLcmd_Cmd_Table_Type *table) /*{{{*/
 
 static int unsetkey_fun (int argc, SLcmd_Cmd_Table_Type *table) /*{{{*/
 {
-   char *map, *key;
+   SLFUTURE_CONST char *map, *key;
    SLKeyMap_List_Type *kmap = NULL;
 
    if (argc != 3)
@@ -350,7 +350,7 @@ static int autobaud_fun (int argc, SLcmd_Cmd_Table_Type *table) /*{{{*/
 
 /*}}}*/
 
-static SLRegexp_Type *compile_quote_regexp (char *str) /*{{{*/
+static SLRegexp_Type *compile_quote_regexp (SLFUTURE_CONST char *str) /*{{{*/
 {
    SLRegexp_Type *r;
 #if SLANG_VERSION < 20000
@@ -517,7 +517,7 @@ static void print_charsets (FILE *fp)
 
 static int set_charset_fun (int argc, SLcmd_Cmd_Table_Type *table)
 {
-   char *name, *value;
+   SLFUTURE_CONST char *name, *value;
    Charset_Table_Type *tbl = Charset_Table;
 
    (void) argc;
@@ -872,12 +872,12 @@ Slrn_Str_Var_Type Slrn_Str_Variables [] = /*{{{*/
 
 /*}}}*/
 
-static int do_set_string_value (Slrn_Str_Var_Type *sp, char *value)
+static int do_set_string_value (Slrn_Str_Var_Type *sp, SLFUTURE_CONST char *value)
 {
    char *ss;
 
    if (NULL != sp->get_set_func)
-     return (*sp->get_set_func)(sp, 1, &value);
+     return (*sp->get_set_func)(sp, 1, (char **) &value);
 
    if (sp->svalp == NULL)
      return 0;
@@ -891,7 +891,7 @@ static int do_set_string_value (Slrn_Str_Var_Type *sp, char *value)
    return 0;
 }
 
-int slrn_set_string_variable (char *name, char *value, char *charset) /*{{{*/
+int slrn_set_string_variable (SLFUTURE_CONST char *name, SLFUTURE_CONST char *value, char *charset) /*{{{*/
 {
    Slrn_Str_Var_Type *sp = Slrn_Str_Variables;
 
@@ -971,7 +971,7 @@ int slrn_set_string_variable (char *name, char *value, char *charset) /*{{{*/
 
 /*}}}*/
 
-int slrn_set_integer_variable (char *name, int value) /*{{{*/
+int slrn_set_integer_variable (SLFUTURE_CONST char *name, int value) /*{{{*/
 {
    Slrn_Int_Var_Type *ip = Slrn_Int_Variables;
 
@@ -1149,9 +1149,9 @@ int slrn_get_variable_value (char *name, SLtype *type, char **sval, int *ival) /
 static int set_variable_fun (int argc, SLcmd_Cmd_Table_Type *table) /*{{{*/
 {
    int ret;
-   char *what = table->string_args[1];
+   SLFUTURE_CONST char *what = table->string_args[1];
    int ivalue = table->int_args[2];
-   char *svalue = table->string_args[2];
+   SLFUTURE_CONST char *svalue = table->string_args[2];
    int type = table->arg_type[2];
 
    (void) argc;
@@ -1254,7 +1254,7 @@ static char *Color_Names [16] =
 };
 /*}}}*/
 
-int slrn_set_object_color (char *name, char *fg, char *bg,
+int slrn_set_object_color (SLFUTURE_CONST char *name, SLFUTURE_CONST char *fg, SLFUTURE_CONST char *bg,
 			   SLtt_Char_Type attr) /*{{{*/
 {
    Color_Handle_Type *ct = Color_Handles;
@@ -1379,7 +1379,7 @@ static SLtt_Char_Type read_mono_attributes (int argc, int start,
 					    SLcmd_Cmd_Table_Type *table)/*{{{*/
 {
    SLtt_Char_Type retval = 0;
-   char *attr;
+   SLFUTURE_CONST char *attr;
    int i;
 
    for (i = start; i < argc; i++)
@@ -1398,9 +1398,9 @@ static SLtt_Char_Type read_mono_attributes (int argc, int start,
 
 static int color_fun (int argc, SLcmd_Cmd_Table_Type *table) /*{{{*/
 {
-   char *what = table->string_args[1];
-   char *fg = table->string_args[2];
-   char *bg = table->string_args[3];
+   SLFUTURE_CONST char *what = table->string_args[1];
+   SLFUTURE_CONST char *fg = table->string_args[2];
+   SLFUTURE_CONST char *bg = table->string_args[3];
    SLtt_Char_Type attrs = read_mono_attributes (argc, 4, table);
 
    if (-1 == slrn_set_object_color (what, fg, bg, attrs))
@@ -1412,7 +1412,7 @@ static int color_fun (int argc, SLcmd_Cmd_Table_Type *table) /*{{{*/
 
 static int mono_fun (int argc, SLcmd_Cmd_Table_Type *table) /*{{{*/
 {
-   char *what = table->string_args[1];
+   SLFUTURE_CONST char *what = table->string_args[1];
    SLtt_Char_Type mono_attr;
    Color_Handle_Type *ct = Color_Handles;
 
@@ -1459,7 +1459,7 @@ static int mono_fun (int argc, SLcmd_Cmd_Table_Type *table) /*{{{*/
 
 static int set_posting_host (int argc, SLcmd_Cmd_Table_Type *table) /*{{{*/
 {
-   char *hostname = table->string_args[1];
+   SLFUTURE_CONST char *hostname = table->string_args[1];
 
    (void) argc;
 
@@ -1525,8 +1525,8 @@ static User_Info_Variable_Type User_Info_Variables[] = /*{{{*/
 
 static int user_data_fun (int argc, SLcmd_Cmd_Table_Type *table) /*{{{*/
 {
-   char *what = table->string_args[0];
-   char *field = table->string_args[1];
+   SLFUTURE_CONST char *what = table->string_args[0];
+   SLFUTURE_CONST char *field = table->string_args[1];
    User_Info_Variable_Type *u = User_Info_Variables;
    char **ptr, *contents;
    unsigned int n;
@@ -1584,11 +1584,13 @@ Server_List_Type;
 
 static Server_List_Type *Server_List;
 
-static Server_List_Type *find_server (char *host) /*{{{*/
+static Server_List_Type *find_server (SLFUTURE_CONST char *inhost) /*{{{*/
 {
    Server_List_Type *s;
-   char *port;
+   char *port, *host;
    int i, has_ssl = 0;
+
+   host = (char *)inhost;
 
    if (0 == strncmp (host, "snews://", 8))
      {
@@ -1641,7 +1643,7 @@ static Server_List_Type *find_server (char *host) /*{{{*/
 
 /*}}}*/
 
-int slrn_add_to_server_list (char *host, char *file, char *username, char *password) /*{{{*/
+int slrn_add_to_server_list (SLFUTURE_CONST char *host, SLFUTURE_CONST char *file, SLFUTURE_CONST char *username, SLFUTURE_CONST char *password) /*{{{*/
 {
    Server_List_Type *s;
 
@@ -1681,7 +1683,8 @@ int slrn_add_to_server_list (char *host, char *file, char *username, char *passw
 
 static int server_fun (int argc, SLcmd_Cmd_Table_Type *table) /*{{{*/
 {
-   char *the_file = table->string_args[2], *the_host = table->string_args[1];
+   SLFUTURE_CONST char *the_host = table->string_args[1];
+   SLFUTURE_CONST char *the_file = table->string_args[2];
 
    (void) argc;
 
@@ -1722,9 +1725,9 @@ char *slrn_map_file_to_host (char *host) /*{{{*/
 static int nnrp_fun (int argc, SLcmd_Cmd_Table_Type *table) /*{{{*/
 {
 #if SLRN_HAS_NNTP_SUPPORT
-   char *server = table->string_args[1];
-   char *name = table->string_args[2];
-   char *pass = table->string_args[3];
+   SLFUTURE_CONST char *server = table->string_args[1];
+   SLFUTURE_CONST char *name = table->string_args[2];
+   SLFUTURE_CONST char *pass = table->string_args[3];
 
    (void) argc;
    return slrn_add_to_server_list (server, NULL, name, pass);
@@ -1956,7 +1959,7 @@ static int include_file_fun (int argc, SLcmd_Cmd_Table_Type *table)
 
 static int interpret_fun (int argc, SLcmd_Cmd_Table_Type *table) /*{{{*/
 {
-   char *file = table->string_args [1];
+   SLFUTURE_CONST char *file = table->string_args [1];
 
    (void) argc;
    return slrn_eval_slang_file (file);

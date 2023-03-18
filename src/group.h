@@ -36,7 +36,7 @@ extern int slrn_get_new_groups (int);
 extern void slrn_init_group_mode (void);
 extern void slrn_get_group_descriptions (void);
 extern int slrn_read_group_descriptions (void);
-extern int slrn_set_group_format (unsigned int, char *);
+extern int slrn_set_group_format (unsigned int, SLFUTURE_CONST char *);
 extern SLKeyMap_List_Type *Slrn_Group_Keymap;
 extern void slrn_post_cmd (void);
 extern unsigned int slrn_group_up_n (unsigned int);

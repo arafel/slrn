@@ -85,7 +85,7 @@ extern void slrn_enable_mouse (int);
 extern void slrn_init_hangup_signals (int);
 extern int Slrn_Use_Mouse;
 
-void slrn_va_exit_error (char *, va_list);
+void slrn_va_exit_error (SLFUTURE_CONST char *, va_list);
 
 extern int Slrn_Default_Server_Obj;
 extern int Slrn_Default_Post_Obj;

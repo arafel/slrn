@@ -22,7 +22,7 @@
 #include <stdio.h>
 #include <stdarg.h>
 
-extern void slrn_tty_vmessage (FILE *, char *, va_list);
+extern void slrn_tty_vmessage (FILE *, SLFUTURE_CONST char *, va_list);
 extern void slrn_tty_error (char *, ...) ATTRIBUTE_PRINTF(1,2);
 extern void slrn_tty_message (char *, ...) ATTRIBUTE_PRINTF(1,2);
 extern int slrn_message (char *, ...) ATTRIBUTE_PRINTF(1,2);

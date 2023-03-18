@@ -22,7 +22,7 @@
 
 extern void slrn_help_init_keysym_table (void);
 extern char *slrn_help_keyseq_to_string (char *, int);
-extern char *slrn_help_string_to_keyseq (char *);
+extern char *slrn_help_string_to_keyseq (SLFUTURE_CONST char *);
 extern char *slrn_help_keyseq_from_function (char *, SLKeyMap_List_Type *);
 
 #endif /* _SLRN_HELP_H */

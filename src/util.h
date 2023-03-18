@@ -29,7 +29,7 @@
 # define SLRN_MAX_PATH_LEN 1024
 #endif
 
-extern int slrn_dircat (char *, char *, char *, size_t);
+extern int slrn_dircat (SLFUTURE_CONST char *, SLFUTURE_CONST char *, char *, size_t);
 extern char *slrn_spool_dircat (char *, char *, int);
 extern int slrn_copy_file (char *, char *);
 extern int slrn_move_file (char *, char *);
@@ -39,7 +39,7 @@ extern int slrn_file_exists (char *);
 extern int slrn_file_size (char *);
 extern int slrn_mkdir (char *);
 extern char *slrn_basename (char *);
-extern int slrn_is_absolute_path (char *);
+extern int slrn_is_absolute_path (SLFUTURE_CONST char *);
 #if defined(IBMPC_SYSTEM)
 extern void slrn_os2_convert_path (char *);
 extern void slrn_os2_make_fat (char *, size_t, char *, char *);

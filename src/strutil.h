@@ -21,16 +21,16 @@
 #ifndef _SLRN_STRUTIL_H_
 #define _SLRN_STRUTIL_H_
 extern char *slrn_simple_strtok (char *, char *);
-extern char *slrn_strbyte (char *, char);
+extern char *slrn_strbyte (SLFUTURE_CONST char *, char);
 extern char *slrn_skip_whitespace (char *s);
 extern char *slrn_bskip_whitespace (char *s);
 extern char *slrn_trim_string (char *s);
-extern int slrn_case_strncmp (char *, char *, unsigned int);
-extern int slrn_case_strcmp (char *, char *);
-extern char *slrn_strbrk (char *, char *);
+extern int slrn_case_strncmp (SLFUTURE_CONST char *, SLFUTURE_CONST char *, unsigned int);
+extern int slrn_case_strcmp (SLFUTURE_CONST char *, SLFUTURE_CONST char *);
+extern char *slrn_strbrk (SLFUTURE_CONST char *, SLFUTURE_CONST char *);
 extern char *slrn_strncpy (char *, const char*, size_t);
 
-extern char *slrn_safe_strmalloc (char *);
+extern char *slrn_safe_strmalloc (SLFUTURE_CONST char *);
 extern char *slrn_safe_strnmalloc (char *, unsigned int);
 extern char *slrn_safe_malloc (unsigned int);
 extern char *slrn_strmalloc (char *, int);
