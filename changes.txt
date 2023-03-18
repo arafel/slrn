@@ -13,6 +13,7 @@ Changes since 1.0.3
 6. Updated the README and other files to refer to <https://slrn.info/>.
 7. *.c: code migrated to slang-3 by using SLFUTURE_CONST, etc
 8. src/nntplib.[ch]: Added support for "OVER" defined by rfc3977
+9. po/da.po: Updated Danish translation file (Morten Bo Johansen)
 
 {{{ Previous Versions
 
