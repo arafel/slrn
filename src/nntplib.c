@@ -75,7 +75,7 @@ static NNTP_Type *nntp_allocate_nntp (void)
    s->can_xover = -1;
    s->can_xhdr = -1;
    s->can_xpat = -1;
-
+   s->xover_cmd_name = "XOVER";
    return s;
 }
 
@@ -262,7 +262,7 @@ int nntp_get_server_response (NNTP_Type *s)
       case ERR_FAULT:
 	if (-1 == _nntp_try_parse_timeout (s->rspbuf))
 	  break;
-	/* Drop */
+	/* fall through */
 
       case 0:			       /* invalid code */
       case ERR_GOODBYE:
@@ -840,7 +840,16 @@ int nntp_has_cmd (NNTP_Type *s, char *cmd)
      return PROBE_XCMD(s, s->can_xpat, cmd);
 
    if (!strcmp (cmd, "XOVER"))
-     return PROBE_XCMD(s, s->can_xover, cmd);
+     {
+	if (s->can_xover != -1) return s->can_xover;
+	if (1 == _nntp_probe_server (s, "OVER"))   /* rfc3977 */
+	  {
+	     s->can_xover = 1;
+	     s->xover_cmd_name = "OVER";
+	     return 1;
+	  }
+	return PROBE_XCMD(s, s->can_xover, cmd);
+     }
 
    return _nntp_probe_server (s, cmd);
 }
@@ -867,7 +876,7 @@ int nntp_head_cmd (NNTP_Type *s, NNTP_Artnum_Type n, char *msgid, NNTP_Artnum_Ty
 
 int nntp_xover_cmd (NNTP_Type *s, NNTP_Artnum_Type min, NNTP_Artnum_Type max)
 {
-   return nntp_server_vcmd (s, "XOVER " NNTP_FMT_ARTRANGE, min, max);
+   return nntp_server_vcmd (s, "%s " NNTP_FMT_ARTRANGE, s->xover_cmd_name, min, max);
 }
 
 int nntp_xhdr_cmd (NNTP_Type *s, char *field, NNTP_Artnum_Type min, NNTP_Artnum_Type max)

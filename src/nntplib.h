@@ -40,6 +40,7 @@ typedef struct
 #define NNTP_RSPBUF_SIZE	512
    char rspbuf[NNTP_RSPBUF_SIZE];
 
+   char *xover_cmd_name;	       /* XOVER or OVER */
    /* Capabilities-- if -1, probe server needs to be done */
    int can_xover;
    int can_xhdr;
